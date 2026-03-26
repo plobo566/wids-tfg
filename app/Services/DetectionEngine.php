@@ -5,6 +5,7 @@ namespace App\Services;
 use Illuminate\Support\Facades\File;
 use App\Services\Rules\DetectionRuleInterface;
 use App\Models\Detection;
+use App\Models\Rule;
 use Illuminate\Support\Facades\Log;
 
 class DetectionEngine{
@@ -19,24 +20,31 @@ class DetectionEngine{
 
 
     public function __construct(){
-        Log::info('constructor ejecutado');
+        //Log::info('constructor ejecutado');
         $this->loadRules(); //cargar las reglas automáticamente
     }
 
     protected function loadRules(): void{
 
-        $path = app_path('Services/Rules');
-        $files = File::files($path); //devuelve objeto tipo 'Symfony\Component\Finder\SplFileInfo' mirando con el dd
 
-        foreach ($files as $file){
-            $name=$file->getFilenameWithoutExtension();
+        $activeRules = Rule::where('is_enabled', true)->get();
 
-            $class = 
-            'App\\Services\\Rules\\' .
-            $name;
+        
+        //$path = app_path('Services/Rules');
+        //$files = File::files($path); //devuelve objeto tipo 'Symfony\Component\Finder\SplFileInfo' mirando con el dd
+
+        foreach ($activeRules as $activeRule){
+            //$name=$file->getFilenameWithoutExtension();
+
+            //$class = 
+            // 'App\\Services\\Rules\\' .
+            //$name;
+            
+            $class= $activeRule->class_name;
+
             
 
-            //dd('files:  ', $files, 'file: ',$file, 'class: ', $class, 'name: ', $name, );
+            
              
             if (!class_exists($class) || interface_exists($class)){
                 continue; //terminamos el foreach si no existe la clase o es una interfaz
@@ -44,6 +52,10 @@ class DetectionEngine{
 
             $rule = app($class); //manera optima de instanciar objeto de las reglas 
 
+            if (method_exists($rule, 'setSettings')){
+                $rule->setSettings($activeRule->settings); //si tiene el metodo setSettings lo usamos
+            }
+            
             if ($rule instanceof DetectionRuleInterface){
                 $this->rules[] = $rule; //solo si cumple la interfaz la añadimos 
             }

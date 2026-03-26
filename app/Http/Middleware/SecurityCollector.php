@@ -47,7 +47,7 @@ class SecurityCollector
             'user_agent' => $userAgent,
         ], $event->id);
 
-
+       
 
         return $response;
     }

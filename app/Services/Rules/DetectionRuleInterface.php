@@ -6,5 +6,8 @@ namespace App\Services\Rules;
 
 interface DetectionRuleInterface
 {
+
+    public function setSettings(array $settings): void;
+
     public function evaluate(array $data): ?array; //devuelve 1 o 0
 }

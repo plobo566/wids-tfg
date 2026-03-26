@@ -17,6 +17,11 @@ class RateLimitRule implements DetectionRuleInterface{
         }
     }
 
+    public function setSettings(array $settings): void{
+        $this->threshold = $settings['threshold'] ?? $this->threshold; //los ?? son por si no hubiera entrada en la bbdd
+        $this->windowSeconds = $settings['windowSeconds'] ?? $this->windowSeconds;
+    }
+
     public function evaluate(array $data): ?array{
 
         $ip=$data['ip'];
@@ -29,7 +34,7 @@ class RateLimitRule implements DetectionRuleInterface{
             ->count();
         
 
-        //la funcion de abajo del score funciona asi.
+        
         // es un sigmoide
         //el score como máximo tendra valor 100
         //cuando pasa el tiempo windowseconds se reinicia la cuenta de score
