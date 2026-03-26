@@ -9,6 +9,7 @@ class Detection extends Model
 
     protected $fillable = [
 
+        'security_event_id',
         'type',
         'rule_name',
         'entity_type',
@@ -27,4 +28,8 @@ class Detection extends Model
         'window_end' => 'datetime',
     ];
 
+
+    public function securityEvent(){
+        return $this->belongsTo(SecurityEvent::class);
+    }
 }

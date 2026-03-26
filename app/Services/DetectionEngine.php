@@ -54,7 +54,7 @@ class DetectionEngine{
 
 
 
-    public function evaluate(array $data): array{
+    public function evaluate(array $data, int $eventId): array{
 
 
         $detections=[];//reset detecciones
@@ -72,6 +72,7 @@ class DetectionEngine{
 
             if ($existing){
                 $existing->update([
+                    'security_event_id' => $eventId,
                     'score' => max($existing->score, $result['score']),
                     'details' => $result['details'],
                     'window_end' => $result['window_end'],
@@ -80,6 +81,7 @@ class DetectionEngine{
             $detections[] = $existing;
 
             }else{
+                $result['security_event_id'] = $eventId;
                 $detection = Detection::create($result);
                 $detections[] = $detection;
 

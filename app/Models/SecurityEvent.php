@@ -18,4 +18,8 @@ class SecurityEvent extends Model
         
     ];
 
+
+    public function detections(){
+        return $this->hasMany(Detection::class);
+    }
 }

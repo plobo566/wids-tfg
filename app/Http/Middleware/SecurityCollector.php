@@ -45,7 +45,7 @@ class SecurityCollector
         $results = $engine->evaluate([
             'ip' => $ip,
             'user_agent' => $userAgent,
-        ]);
+        ], $event->id);
 
 
 
