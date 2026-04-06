@@ -6,6 +6,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('test/{test?}', function($test=0){
-    return $test;
+Route::get('/test', function(){
+    return view('test');
 });
+
+
+Route::post('/test',function(){
+    return "Post realizado";
+})->name('test.post');

@@ -45,9 +45,10 @@ class SecurityCollector
         $results = $engine->evaluate([
             'ip' => $ip,
             'user_agent' => $userAgent,
+            'payload' => $request->all(),//lo dejo preparado para mañana añadir la regla de sqli
         ], $event->id);
 
-       
+        //dd($request->all());
 
         return $response;
     }
