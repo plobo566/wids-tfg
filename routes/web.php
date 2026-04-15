@@ -14,3 +14,11 @@ Route::get('/test', function(){
 Route::post('/test',function(){
     return "Post realizado";
 })->name('test.post');
+
+Route::get('/login',function(){
+    return view('login');
+});
+
+Route::post('/login',function(){
+    return "Login realizado";
+})->name('login.post');
