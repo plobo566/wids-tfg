@@ -62,5 +62,20 @@ class RuleSeeder extends Seeder
         ]);
 
 
+        Rule::updateOrCreate([
+            'name' => 'Escaneo de Endpoints',
+            'class_name' => 'App\Services\Rules\ScanningRule',
+            'is_enabled' => true,
+            'priority' => 10,
+            'settings' => [
+                'threshold' => 2,
+                'window_minutes' => 5,
+                'base_score' => 50,
+                'reincidence' => 5,
+                'suspicious_paths' => ['.env', '.git', 'phpmyadmin', 'wp-admin', 'config.php', 'database.sql', '.aws'],
+            ],
+
+        ]);
+
     }
 }
