@@ -22,3 +22,7 @@ Route::get('/login',function(){
 Route::post('/login',function(){
     return "Login realizado";
 })->name('login.post');
+
+Route::get('/xssattacker',function(){
+    return view('xss');
+});

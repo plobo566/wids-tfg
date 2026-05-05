@@ -70,7 +70,7 @@ class SqlInjectionRule implements DetectionRuleInterface{
         }
 
 
-          return [
+        return [
             'type' => 'rule',
             'rule_name' => static::class,
             'entity_type' => 'ip',

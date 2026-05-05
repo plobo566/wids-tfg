@@ -49,7 +49,12 @@ class SecurityCollector
             'path' => $request->path(),
             'method'=>$request->method(),
             'url' => $request->fullUrl(),
+            'referer' => $request->headers->get('referer', 'direct'), //si no hay, ponemos direct
+            'origin' => $request->headers->get('origin', 'direct'),
+
         ], $event->id);
+
+        //dd('request: ', $request);
 
         //dd($request->all());
 

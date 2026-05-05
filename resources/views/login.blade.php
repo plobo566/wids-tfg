@@ -12,9 +12,9 @@
         @csrf
         <label>Prueba Login:</label>
         <br>
-        <input type="text" name="inputprueba" placeholder="User">
+        <input type="text" name="username" placeholder="User">
         <br>
-        <input type="text" name="inputprueba" placeholder="Password">
+        <input type="text" name="password" placeholder="Password">
         <br><br>
         <button type="submit">Login</button>
     </form>

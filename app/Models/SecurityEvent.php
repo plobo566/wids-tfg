@@ -18,6 +18,10 @@ class SecurityEvent extends Model
         
     ];
 
+    protected $casts = [
+        'payload' => 'array',
+        'details' => 'array',
+    ];
 
     public function detections(){
         return $this->hasMany(Detection::class);

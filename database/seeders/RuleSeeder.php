@@ -54,7 +54,7 @@ class RuleSeeder extends Seeder
             'settings' => [
                 'threshold' => 5,
                 'window_minutes' => 2,
-                'base_score' => 65,
+                'base_score' => 5,
                 'reincidence' => 5,
                 'critical_paths' => ['login', 'otp', 'password', 'token'],
             ],
@@ -76,6 +76,53 @@ class RuleSeeder extends Seeder
             ],
 
         ]);
+
+
+
+        Rule::updateOrCreate([
+            'name' => 'XSS | Cross-Site Scritpting ',
+            'class_name' => 'App\Services\Rules\XssRule',
+            'is_enabled' => true,
+            'priority' => 10,
+            'settings' => [
+                'base_score' => 70,
+                'reincidence' => 10,
+                'window_minutes' => 10,
+            ],
+
+        ]);
+
+
+        Rule::updateOrCreate([
+            'name' => 'CRSF | Cross-Site Request Forgery ',
+            'class_name' => 'App\Services\Rules\CsrfRule',
+            'is_enabled' => true,
+            'priority' => 10,
+            'settings' => [
+                'base_score' => 70,
+                'reincidence' => 10,
+                'window_minutes' => 20,
+            ],
+
+        ]);
+
+
+        Rule::updateOrCreate([
+            'name' => 'Detector de Enumeración de usuarios | User Enumeration ',
+            'class_name' => 'App\Services\Rules\UserEnumerationRule',
+            'is_enabled' => true,
+            'priority' => 10,
+            'settings' => [
+                'threshold' => 3,
+                'base_score' => 20,
+                'reincidence' => 10,
+                'window_minutes' => 15,
+                'user_fields' => ['username', 'email', 'user', 'usuario', 'login']
+            ],
+
+        ]);
+
+
 
     }
 }
