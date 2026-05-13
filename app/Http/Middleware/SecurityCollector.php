@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use App\Services\DetectionEngine;
 use App\Services\Rules\RateLimitRule;
 use App\Models\SecurityEvent;
+use App\Services\DataNormalizer;
 
 
 class SecurityCollector
@@ -25,30 +26,43 @@ class SecurityCollector
         $response = $next($request);
         $duration = microtime(true) - $start;
 
-        $event = SecurityEvent::create([
 
+        $rawData = [
             'ip_address'    => $request->ip(),
             'method'        => $request->method(),
             'url'           => $request->fullUrl(),
             'user_agent'    => $request->userAgent(),
+
+            'payload'       => $request->all(),
+        ];
+
+        $event = SecurityEvent::create([
+
+            'ip_address'    => $rawData['ip_address'],
+            'method'        => $rawData['method'],
+            'url'           => $rawData['url'],
+            'user_agent'    => $rawData['user_agent'],
             'status_code'   => $response->getStatusCode(),
-            'payload'       => json_encode($request->all()),
+            'payload'       => $rawData['payload'],
             
 
         ]);
 
+
+        $normalizer = app(DataNormalizer::class);
+        $normalizedData = $normalizer->normalize($rawData);
         //
         $ip = $request->ip();
         $userAgent = $request->userAgent();
 
         $engine= app(DetectionEngine::class); //singleton para que no creemos una instancia del engine cada vez que hay una rqeuest
         $results = $engine->evaluate([
-            'ip' => $ip,
-            'user_agent' => $userAgent,
-            'payload' => $request->all(),//lo dejo preparado para añadir la regla de sqli
+            'ip' => $normalizedData['ip_address'],
+            'user_agent' => $normalizedData['user_agent'],
+            'payload' => $normalizedData['payload'],//lo dejo preparado para añadir la regla de sqli
             'path' => $request->path(),
-            'method'=>$request->method(),
-            'url' => $request->fullUrl(),
+            'method'=>$normalizedData['method'],
+            'url' => $normalizedData['url'],
             'referer' => $request->headers->get('referer', 'direct'), //si no hay, ponemos direct
             'origin' => $request->headers->get('origin', 'direct'),
 

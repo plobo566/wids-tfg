@@ -4,7 +4,7 @@ namespace App\Services\Rules;
 
 use App\Models\Detection;
 use App\Models\SecurityEvent;
-use Illuminate\Support\Facades\DB;
+
 
 class UserEnumerationRule implements DetectionRuleInterface{
 
@@ -28,7 +28,7 @@ class UserEnumerationRule implements DetectionRuleInterface{
     public function evaluate(array $data): ?array{
 
         if (!str_contains(strtolower($data['url'] ?? ''), 'login')){
-            dump("DEBUG: no es ruta login" . $data['url']);
+            //dump("DEBUG: no es ruta login" . $data['url']);
 
             return null;
         }
@@ -53,8 +53,8 @@ class UserEnumerationRule implements DetectionRuleInterface{
 
         if (!$currentUser){
             
-            dump("DEBUG: no se encontro usuario en el payload" , $this->userFields);
-            dump ("payload" , $payload);
+            //dump("DEBUG: no se encontro usuario en el payload" , $this->userFields);
+            //dump ("payload" , $payload);
 
             return null;
         }
@@ -65,7 +65,7 @@ class UserEnumerationRule implements DetectionRuleInterface{
             ->where('created_at','>=', now()->subMinutes($this->windowMinutes))
             ->get();
 
-        dump("DEBUG: Eventos encontrados en DB para la IP $ip: " . $events->count());
+        //dump("DEBUG: Eventos encontrados en DB para la IP $ip: " . $events->count());
 
 
         $arrayUsers = [];
@@ -86,8 +86,8 @@ class UserEnumerationRule implements DetectionRuleInterface{
         }
         $distinctUsers = count($arrayUsers);
 
-        dump("DEBUG: Usuarios unicos contados" . $distinctUsers);
-        dump("lista de users detectados: ", array_keys($arrayUsers));
+        //dump("DEBUG: Usuarios unicos contados" . $distinctUsers);
+        //dump("lista de users detectados: ", array_keys($arrayUsers));
         
 
 
@@ -96,7 +96,7 @@ class UserEnumerationRule implements DetectionRuleInterface{
             return null;
         }
 
-        dump("umbral superado");
+        //dump("umbral superado");
 
         
         $existing = Detection::where('rule_name', static::class)
