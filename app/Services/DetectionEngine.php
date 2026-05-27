@@ -7,6 +7,9 @@ use App\Services\Rules\DetectionRuleInterface;
 use App\Models\Detection;
 use App\Models\Rule;
 use Illuminate\Support\Facades\Log;
+use App\Mail\CriticalAlertMail;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Cache;
 
 class DetectionEngine{
 
@@ -21,7 +24,6 @@ class DetectionEngine{
 
     public function __construct(){
         //Log::info('constructor ejecutado');
-        $this->loadRules(); //cargar las reglas automáticamente
     }
 
     protected function loadRules(): void{
@@ -69,6 +71,9 @@ class DetectionEngine{
     public function evaluate(array $data, int $eventId): array{
 
 
+        $this->rules = [];
+        $this->loadRules();
+
         $detections=[];//reset detecciones
 
         foreach ($this->rules as $rule){
@@ -90,15 +95,25 @@ class DetectionEngine{
                     'window_end' => $result['window_end'],
                 ]);
             
-            $detections[] = $existing;
+                $detections[] = $existing;
+                $targetDetection = $existing;
 
             }else{
                 $result['security_event_id'] = $eventId;
                 $detection = Detection::create($result);
                 $detections[] = $detection;
+                $targetDetection = $detection;
 
             }
 
+            if ($targetDetection->score >= 100) {
+                $emailCooldownKey = 'email_alert_sent_' . $targetDetection->id;
+                
+                if (Cache::add($emailCooldownKey, true, 3600)) {
+                    Mail::to('pablete566@gmail.com')->send(new CriticalAlertMail($targetDetection));
+                }
+            }
+                
            }
         }
 

@@ -3,6 +3,7 @@
 namespace App\Services\Rules;
 
 use App\Models\SecurityEvent;
+use Illuminate\Support\Facades\Cache;
 
 class RateLimitRule implements DetectionRuleInterface{
     protected int $threshold; //umbral: numero peticiones en menos de $windowSeconds segundos
@@ -45,7 +46,13 @@ class RateLimitRule implements DetectionRuleInterface{
             $score = 0;
             return null;
         
-        }else{
+        }
+
+        $cacheKey= 'cooldown_ratelimit_'.$ip;
+
+        if(!Cache::add($cacheKey,true,1)){
+            return null;
+        }
 
         $excess = $count - $T;
         $k= 3; //pendiente curva
@@ -53,7 +60,9 @@ class RateLimitRule implements DetectionRuleInterface{
         $x =min($x,1); 
         
         $score = 100 * (1 / (1+exp(-$k * ($x - 0.5))));
-        }
+        
+   
+
         return [
             'type' => 'rule',
             'rule_name' => static::class,

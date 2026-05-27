@@ -4,6 +4,7 @@ namespace App\Services\Rules;
 
 use App\Models\Detection;
 use App\Models\SecurityEvent;
+use Illuminate\Support\Facades\Cache;
 
 class BruteForceRule implements DetectionRuleInterface{
 
@@ -71,6 +72,14 @@ class BruteForceRule implements DetectionRuleInterface{
             $score = $existing->score + $this->reincidence;
             
          }
+
+        $ip=$data['ip'];
+
+        $cacheKey= 'cooldown_ratelimit_'.$ip;
+
+        if(!Cache::add($cacheKey,true,1)){
+            return null;
+        }
 
          $score = min(100, $score);
 

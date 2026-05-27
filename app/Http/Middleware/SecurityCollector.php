@@ -10,7 +10,7 @@ use App\Services\DetectionEngine;
 use App\Services\Rules\RateLimitRule;
 use App\Models\SecurityEvent;
 use App\Services\DataNormalizer;
-
+use App\Jobs\AnalyzeSecurityEvent;
 
 class SecurityCollector
 {
@@ -21,7 +21,13 @@ class SecurityCollector
      */
     public function handle(Request $request, Closure $next): Response
     {
+
+        if ($request->is('horizon*') || $request->is('livewire*') || $request->is('admin*')){
+            return $next($request);
+        }
+
         $start = microtime(true);
+
         //ejecutar la request
         $response = $next($request);
         $duration = microtime(true) - $start;
@@ -55,8 +61,8 @@ class SecurityCollector
         $ip = $request->ip();
         $userAgent = $request->userAgent();
 
-        $engine= app(DetectionEngine::class); //singleton para que no creemos una instancia del engine cada vez que hay una rqeuest
-        $results = $engine->evaluate([
+        //$engine= app(DetectionEngine::class); //singleton para que no creemos una instancia del engine cada vez que hay una rqeuest
+        AnalyzeSecurityEvent::dispatch([
             'ip' => $normalizedData['ip_address'],
             'user_agent' => $normalizedData['user_agent'],
             'payload' => $normalizedData['payload'],//lo dejo preparado para añadir la regla de sqli

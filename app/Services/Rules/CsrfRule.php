@@ -30,13 +30,13 @@ class CsrfRule implements DetectionRuleInterface{
 
 
         $reasons = [];
-        $origin = $data['origin'] ?? null;
-        $referer = $data['referer']?? null;
+        $origin = ($data['origin'] === 'direct') ? null : $data['origin'];
+        $referer = ($data['referer'] === 'direct') ? null : $data['referer'];
 
         //obtener dominio con puerto
         
-        $urlHost= parse_url(config('app.url'), PHP_URL_HOST);
-        $urlPort= parse_url(config('app.url'), PHP_URL_PORT);
+        $urlHost= parse_url($data['url'], PHP_URL_HOST);
+        $urlPort= parse_url($data['url'], PHP_URL_PORT);
         $url= $urlPort? "$urlHost:$urlPort" : $urlHost;
 
 
