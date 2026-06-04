@@ -19,11 +19,43 @@ class DetectionResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationLabel = 'Detecciones';
+    protected static ?string $pluralModelLabel = 'Detecciones';
+    protected static ?string $modelLabel = 'Detección';
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                //
+                Forms\Components\Section::make('Información Forense de la Alerta')
+                    ->schema([
+                        Forms\Components\TextInput::make('rule_name')
+                            ->label('Regla Disparada')
+                            ->disabled(),
+
+                        Forms\Components\TextInput::make('type')
+                            ->label('Origen')
+                            ->disabled(),
+
+                        Forms\Components\TextInput::make('entity_value')
+                            ->label('Objetivo Atacado (IP)')
+                            ->disabled(),
+
+                        Forms\Components\TextInput::make('score')
+                            ->label('Severidad / Score')
+                            ->disabled(),
+
+                        Forms\Components\DateTimePicker::make('created_at')
+                            ->label('Detectado el')
+                            ->disabled(),
+
+                        Forms\Components\Textarea::make('details')
+                            ->label('Metadatos / Payload Completo')
+                            ->disabled()
+                            ->rows(12)
+                            ->columnSpanFull()
+                            ->afterStateHydrated(fn ($state, $set) => $set('details', json_encode($state, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE))),
+                    ])->columns(2)
             ]);
     }
 

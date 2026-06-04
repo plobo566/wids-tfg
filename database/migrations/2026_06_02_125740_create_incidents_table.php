@@ -1,0 +1,27 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('incidents', function (Blueprint $table) {
+            $table->id();
+            $table->string('title');
+            $table->string('entity_value'); // Aquí guardaremos la IP atacante
+            $table->string('status')->default('open'); // open, mitigated, false_positive
+            $table->string('severity')->default('low'); // low, medium, high, critical
+            $table->timestamp('first_seen')->nullable();
+            $table->timestamp('last_seen')->nullable();
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('incidents');
+    }
+};

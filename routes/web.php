@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('landing');
 });
 
 Route::get('/test', function(){
@@ -12,7 +12,7 @@ Route::get('/test', function(){
 
 
 Route::post('/test',function(){
-    return "Post realizado";
+    return view('message',['title' => 'Post Realizado']);
 })->name('test.post');
 
 Route::get('/login',function(){
@@ -20,7 +20,7 @@ Route::get('/login',function(){
 });
 
 Route::post('/login',function(){
-    return "Login realizado";
+    return view('message',['title' => 'Login realizado']);
 })->name('login.post');
 
 Route::get('/xssattacker',function(){

@@ -106,6 +106,46 @@ class DetectionEngine{
 
             }
 
+            //incidents
+
+            $incident = \App\Models\Incident::where('entity_value', $targetDetection->entity_value)
+                ->where('status', 'open')
+                ->first();
+
+            $severity = match(true) {
+                $targetDetection->score >= 100 => 'critical',
+                $targetDetection->score >= 80 => 'high',
+                $targetDetection->score >= 50 => 'medium',
+                default => 'low',
+            };
+
+            if ($incident) {
+                $incident->update([
+                    'last_seen' => now(),
+                    'severity' => match(true) {
+                        $incident->severity === 'critical' || $severity === 'critical' => 'critical',
+                        $incident->severity === 'high' || $severity === 'high' => 'high',
+                        $incident->severity === 'medium' || $severity === 'medium' => 'medium',
+                        default => 'low',
+                    }
+                ]);
+            } else {
+                $incident = \App\Models\Incident::create([
+                    'title' => 'Actividad sospechosa detectada: ' . class_basename($targetDetection->rule_name),
+                    'entity_value' => $targetDetection->entity_value,
+                    'status' => 'open',
+                    'severity' => $severity,
+                    'first_seen' => now(),
+                    'last_seen' => now(),
+                ]);
+            }
+
+            $targetDetection->update(['incident_id' => $incident->id]);
+
+
+
+            //webhook
+
             if ($targetDetection->score >= 100) {
                 $emailCooldownKey = 'email_alert_sent_' . $targetDetection->id;
                 

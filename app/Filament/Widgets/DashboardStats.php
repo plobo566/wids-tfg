@@ -39,6 +39,7 @@ class DashboardStats extends BaseWidget
                 ->description('Detecciones desde el inicio')
                 ->descriptionIcon('heroicon-m-chart-bar')
                 ->color('primary'),
+                
         ];
     }
 }

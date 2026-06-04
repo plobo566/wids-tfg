@@ -9,6 +9,7 @@ class Detection extends Model
 
     protected $fillable = [
 
+        'incident_id',
         'security_event_id',
         'type',
         'rule_name',
@@ -31,5 +32,10 @@ class Detection extends Model
 
     public function securityEvent(){
         return $this->belongsTo(SecurityEvent::class);
+    }
+
+    public function incident()
+    {
+        return $this->belongsTo(Incident::class);
     }
 }
