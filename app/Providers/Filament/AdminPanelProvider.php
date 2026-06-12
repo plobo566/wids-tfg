@@ -17,6 +17,7 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Illuminate\Support\Facades\URL;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -56,5 +57,13 @@ class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ]);
 
+    }
+
+    public function boot(): void
+    {
+       
+        if (env('APP_ENV') !== 'local' || request()->header('x-forwarded-proto') === 'https') {
+            URL::forceScheme('https');
+        }
     }
 }

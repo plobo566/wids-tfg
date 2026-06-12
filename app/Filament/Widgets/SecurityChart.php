@@ -5,7 +5,7 @@ namespace App\Filament\Widgets;
 use Filament\Widgets\ChartWidget;
 use App\Models\SecurityEvent;
 use App\Models\Detection; 
-use Illuminate\Support\Str;
+
 
 class SecurityChart extends ChartWidget
 {

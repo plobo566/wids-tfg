@@ -14,13 +14,11 @@ class RuleResource extends Resource
 {
     protected static ?string $model = Rule::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-shield-check';
+    protected static ?string $navigationIcon = 'heroicon-o-cog-6-tooth';
     protected static ?string $navigationLabel = 'Configuración de Reglas';
 
-    /**
-     * Esta función bloquea la creación de nuevas reglas desde el panel.
-     * Solo permitirá ver y editar las que ya existen en la base de datos.
-     */
+    //bloquear creacion de normas
+
     public static function canCreate(): bool
     {
         return false;
@@ -32,12 +30,12 @@ class RuleResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->label('Nombre de la Regla')
-                    ->disabled() // Bloqueado: no se puede editar
+                    ->disabled() //bloqueado: no se puede editar
                     ->columnSpan(1),
                     
                 Forms\Components\TextInput::make('class_name')
                     ->label('Clase PHP (Backend)')
-                    ->disabled() // Bloqueado: no se puede romper el enlace
+                    ->disabled() //bloqueado: no se puede romper el enlace
                     ->columnSpan(1),
                     
                 Forms\Components\TextInput::make('priority')
@@ -93,7 +91,7 @@ class RuleResource extends Resource
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                // Eliminamos las acciones masivas de borrado para evitar accidentes
+                //elliminar las acciones masivas de borrado para evitar accidentes
             ]);
     }
 

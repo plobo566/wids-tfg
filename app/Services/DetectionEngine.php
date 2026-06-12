@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Log;
 use App\Mail\CriticalAlertMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Cache;
+use App\Models\AlertSetting;
 
 class DetectionEngine{
 
@@ -146,11 +147,20 @@ class DetectionEngine{
 
             //webhook
 
-            if ($targetDetection->score >= 100) {
+            $config = AlertSetting::first();
+            \Log::info('--- DEBÚGUEANDO WEBHOOK ---');
+            \Log::info('¿Existe configuración en la DB?: ' . ($config ? 'SÍ' : 'NO'));
+            \Log::info('Score obtenido: ' . $targetDetection->score . ' | Threshold requerido: ' . ($config ? $config->threshold : 'N/A'));
+            //comprobamos si existe la configuracion y si la puntuación supera el baremo
+            if ($config && $targetDetection->score >= $config->threshold) {
+                \Log::info('¡Condiciones superadas! Intentando encolar correo...');
+
                 $emailCooldownKey = 'email_alert_sent_' . $targetDetection->id;
                 
+                // cooldown de 1 hora para no spam
                 if (Cache::add($emailCooldownKey, true, 3600)) {
-                    Mail::to('pablete566@gmail.com')->send(new CriticalAlertMail($targetDetection));
+                    // enviar al correo del panel
+                    Mail::to($config->email_destination)->send(new CriticalAlertMail($targetDetection));
                 }
             }
                 
