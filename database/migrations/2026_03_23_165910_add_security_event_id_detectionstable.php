@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::table('detections', function(Blueprint $table){
 
             $table->foreignId('security_event_id')
+                  ->nullable()
                   ->constrained()
                   ->onDelete('cascade');
         });
