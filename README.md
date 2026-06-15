@@ -44,14 +44,21 @@ MAIL_PASSWORD=tu_contraseña
 **3. Base de datos y ejecución**
 ```bash
 php artisan migrate
+php artisan db:seed --class=RuleSeeder
 ```
 
-Para que el sistema funcione correctamente con su arquitectura asíncrona, se deben levantar ambos procesos:
+Para que el sistema funcione correctamente con su arquitectura asíncrona, se deben levantar tres procesos:
 
 ```bash
 php artisan serve
 ```
+
+```bash
+brew services start redis
+```
+
 ```bash
 php artisan horizon
 ```
+
 
