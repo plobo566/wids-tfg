@@ -20,9 +20,18 @@ return Application::configure(basePath: dirname(__DIR__))
 
         //trust cloudflare        
         $middleware->trustProxies(at: '*');
+        $middleware->trustHosts(at: ['*']);
         
         $middleware->append(\App\Http\Middleware\SecurityCollector::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
+
+        $exceptions->render(function (\Symfony\Component\HttpKernel\Exception\HttpException $e, \Illuminate\Http\Request $request) {
+           
+            if ($e->getStatusCode() === 403 && $request->is('horizon*')) {
+                session()->put('wants_horizon', true);
+                return redirect('/admin');
+            }
+        });
         
     })->create();

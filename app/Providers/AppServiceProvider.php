@@ -20,6 +20,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+      
+        if (request()->is('horizon*')) {
+            request()->headers->remove('X-Forwarded-For');
+        }
+
+
+        if (env('APP_ENV') !== 'local' || request()->header('x-forwarded-proto') === 'https') {
+            \Illuminate\Support\Facades\URL::forceScheme('https');
+        }
 
     }
 }

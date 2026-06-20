@@ -18,6 +18,9 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Illuminate\Support\Facades\URL;
+use Filament\Support\Facades\FilamentView;
+use Filament\View\PanelsRenderHook;
+use Illuminate\Support\Facades\Cache;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -62,8 +65,26 @@ class AdminPanelProvider extends PanelProvider
     public function boot(): void
     {
        
-        if (env('APP_ENV') !== 'local' || request()->header('x-forwarded-proto') === 'https') {
-            URL::forceScheme('https');
-        }
+
+      FilamentView::registerRenderHook(
+            PanelsRenderHook::BODY_START,
+            function (): string {
+                if ($user = auth()->user()) {
+                    if ($user->email === 'admin@admin.com') {
+                        
+                        $sessionId = request()->getSession()->getId();
+                        Cache::put('admin_horizon_' . $sessionId, true, now()->addMinutes(60));
+
+                        if (session('wants_horizon')) {
+                            //borramos la nota 
+                            session()->forget('wants_horizon');
+                            //redirect a horizon 
+                            return '<script>window.location.href = "/horizon";</script>';
+                        }
+                    }
+                }
+                return ''; 
+            }
+        );
     }
 }
