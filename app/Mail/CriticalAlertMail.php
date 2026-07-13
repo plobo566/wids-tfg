@@ -29,10 +29,13 @@ class CriticalAlertMail extends Mailable implements ShouldQueue
         );
     }
 
-    public function content(): Content
+   public function content(): Content
     {
-        return new Content(
-            markdown: 'emails.alerts.critical',
-        );
-    }
+    return new Content(
+        view: 'emails.alerts.critical',
+        with: [
+            'detection' => $this->detection,
+        ],
+    );
+}
 }

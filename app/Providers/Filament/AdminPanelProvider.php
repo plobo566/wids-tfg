@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\URL;
 use Filament\Support\Facades\FilamentView;
 use Filament\View\PanelsRenderHook;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\HtmlString;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -30,6 +31,13 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
+            ->brandName('WIDS')
+            ->brandLogo(fn () => new HtmlString('
+                <div class="flex items-center gap-2">
+                    <img src="' . asset('images/logowids.svg') . '" alt="Logo WIDS" style="height: 2.5rem;">
+                    <span class="text-xl font-bold tracking-tight text-amber-500">WIDS</span>
+                </div>
+            '))
             ->login()
             ->colors([
                 'primary' => Color::Amber,
