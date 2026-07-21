@@ -5,8 +5,6 @@ namespace App\Providers;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Horizon\Horizon;
 use Laravel\Horizon\HorizonApplicationServiceProvider;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
 
 class HorizonServiceProvider extends HorizonApplicationServiceProvider
 {
@@ -16,33 +14,36 @@ class HorizonServiceProvider extends HorizonApplicationServiceProvider
     public function boot(): void
     {
         parent::boot();
+    }
 
-        // Horizon::routeSmsNotificationsTo('15556667777');
-        // Horizon::routeMailNotificationsTo('example@example.com');
-        // Horizon::routeSlackNotificationsTo('slack-webhook-url', '#channel');
+    /**
+     * Override del método de autorización nativo de Horizon.
+     */
+    protected function authorization(): void
+    {
+        $this->gate();
+
+        Horizon::auth(function ($request) {
+            
+            if (!auth()->guard('web')->check()) {
+                
+                session()->put('url.intended', url('/horizon'));
+                
+                throw new \Illuminate\Auth\AuthenticationException('Unauthenticated.', ['web'], '/admin/login');
+            }
+
+            return Gate::check('viewHorizon', [auth()->guard('web')->user()]);
+        });
     }
 
     /**
      * Register the Horizon gate.
-     *
-     * This gate determines who can access Horizon in non-local environments.
      */
-
-
-
-   protected function authorization(): void
-    {
-      Horizon::auth(function ($request) {
-            
-            $sessionId = $request->getSession()->getId();
-            return Cache::get('admin_horizon_' . $sessionId, false) === true;
-            
-        });
-    }
-
-
     protected function gate(): void
     {
+        Gate::define('viewHorizon', function ($user) {
 
+            return $user && $user->email === 'pablo@wids.com'; 
+        });
     }
 }

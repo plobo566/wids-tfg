@@ -73,26 +73,6 @@ class AdminPanelProvider extends PanelProvider
     public function boot(): void
     {
        
-
-      FilamentView::registerRenderHook(
-            PanelsRenderHook::BODY_START,
-            function (): string {
-                if ($user = auth()->user()) {
-                    if ($user->email === 'admin@admin.com') {
-                        
-                        $sessionId = request()->getSession()->getId();
-                        Cache::put('admin_horizon_' . $sessionId, true, now()->addMinutes(60));
-
-                        if (session('wants_horizon')) {
-                            //borramos la nota 
-                            session()->forget('wants_horizon');
-                            //redirect a horizon 
-                            return '<script>window.location.href = "/horizon";</script>';
-                        }
-                    }
-                }
-                return ''; 
-            }
-        );
+        
     }
 }

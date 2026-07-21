@@ -21,23 +21,52 @@
 </head>
 <body class="bg-[#0f0f0f] text-gray-100">
 
-    <header class="fixed w-full z-50">
-        
+   <header class="fixed w-full z-50">
         <nav class="bg-[#0f0f0f] border-b border-gray-800 py-2.5">
             <div class="flex flex-wrap items-center justify-between max-w-screen-xl px-4 mx-auto">
-        <a href="/" class="flex items-center">
-    <img src="{{ asset('images/logowids.svg') }}" class="h-8 mr-3" alt="WIDS Logo" />
-    
-    <span class="self-center text-xl font-semibold whitespace-nowrap text-white">WIDS Engine</span>
-        </a>
-<div class="flex items-center lg:order-2">
-    <a href="/horizon" class="flex items-center text-white bg-amber-600 hover:bg-amber-500 font-medium rounded-lg text-sm px-5 py-2.5 transition-all">
-        Horizon
-        <svg class="w-5 h-5 ml-2" viewBox="0 0 30 30" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-            <path d="M5.26176342 26.4094389C2.04147988 23.6582233 0 19.5675182 0 15c0-4.1421356 1.67893219-7.89213562 4.39339828-10.60660172C7.10786438 1.67893219 10.8578644 0 15 0c8.2842712 0 15 6.71572875 15 15 0 8.2842712-6.7157288 15-15 15-3.716753 0-7.11777662-1.3517984-9.73823658-3.5905611zM4.03811305 15.9222506C5.70084247 14.4569342 6.87195416 12.5 10 12.5c5 0 5 5 10 5 3.1280454 0 4.2991572-1.9569336 5.961887-3.4222502C25.4934253 8.43417206 20.7645408 4 15 4 8.92486775 4 4 8.92486775 4 15c0 .3105915.01287248.6181765.03811305.9222506z"/>
-        </svg>
-    </a>
-</div>
+                
+                <a href="/" class="flex items-center">
+                    <img src="{{ asset('images/logowids.svg') }}" class="h-8 mr-3" alt="WIDS Logo" />
+                    <span class="self-center text-xl font-semibold whitespace-nowrap text-white">WIDS Engine</span>
+                </a>
+                
+                <div class="flex items-center gap-4 lg:order-2">
+                    
+                    @if(Auth::guard('landing')->check())
+                        <div class="relative inline-block text-left">
+                            <button type="button" onclick="document.getElementById('user-menu').classList.toggle('hidden')" 
+                                    class="flex items-center gap-2 px-3 py-2 bg-[#1a1a1a] text-sm font-medium text-gray-300 hover:text-white border border-gray-700 rounded-lg hover:border-gray-500 transition-colors focus:outline-none">
+                                Hola, <span class="text-amber-500 font-bold">{{ Auth::guard('landing')->user()->name }}</span>
+                                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </button>
+
+                            <div id="user-menu" class="hidden absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-[#1f1f1f] ring-1 ring-black ring-opacity-5 border border-gray-800 z-50 overflow-hidden">
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit" class="block w-full text-left px-4 py-3 text-sm text-gray-300 hover:bg-gray-800 hover:text-white transition-colors">
+                                        Cerrar Sesión
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    @else
+                        <div class="flex items-center gap-3 mr-2">
+                            <a href="{{ route('login') }}" class="text-sm font-medium text-gray-300 hover:text-amber-500 transition-colors">Entrar</a>
+                            <span class="text-gray-700">|</span>
+                            <a href="{{ route('register') }}" class="text-sm font-medium text-gray-300 hover:text-amber-500 transition-colors">Registrarse</a>
+                        </div>
+                    @endif
+
+                    <a href="/horizon" class="flex items-center text-white bg-amber-600 hover:bg-amber-500 font-medium rounded-lg text-sm px-4 py-2.5 transition-all">
+                        Horizon
+                        <svg class="w-5 h-5 ml-2" viewBox="0 0 30 30" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5.26176342 26.4094389C2.04147988 23.6582233 0 19.5675182 0 15c0-4.1421356 1.67893219-7.89213562 4.39339828-10.60660172C7.10786438 1.67893219 10.8578644 0 15 0c8.2842712 0 15 6.71572875 15 15 0 8.2842712-6.7157288 15-15 15-3.716753 0-7.11777662-1.3517984-9.73823658-3.5905611zM4.03811305 15.9222506C5.70084247 14.4569342 6.87195416 12.5 10 12.5c5 0 5 5 10 5 3.1280454 0 4.2991572-1.9569336 5.961887-3.4222502C25.4934253 8.43417206 20.7645408 4 15 4 8.92486775 4 4 8.92486775 4 15c0 .3105915.01287248.6181765.03811305.9222506z"/>
+                        </svg>
+                    </a>
+
+                </div>
             </div>
         </nav>
     </header>

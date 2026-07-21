@@ -14,11 +14,12 @@ class AlertSettingResource extends Resource
 {
     protected static ?string $model = AlertSetting::class;
 
-
+    protected static ?string $navigationGroup = 'Sistema';
+    
     protected static ?string $navigationIcon = 'heroicon-o-envelope-open';
     
     //nombres en español
-    protected static ?string $navigationLabel = 'Config. Alertas';
+    protected static ?string $navigationLabel = 'Configuración de Alertas';
     protected static ?string $modelLabel = 'Configuración de Alerta';
     protected static ?string $pluralModelLabel = 'Configuración de Alertas';
 

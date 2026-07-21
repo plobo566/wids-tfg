@@ -20,8 +20,8 @@ class AnomalyControl extends Page implements HasForms
     use InteractsWithForms;
 
     protected static ?string $navigationIcon = 'heroicon-o-arrow-trending-up';
-    protected static ?string $navigationLabel = 'Anomalias';
-    protected static ?string $title = 'Panel de Control de';
+    protected static ?string $navigationLabel = 'Escaneo de Anomalias';
+    protected static ?string $title = 'Panel de Control de Anomalias';
     protected static ?string $navigationGroup = 'Sistema';
     
     protected static string $view = 'filament.pages.anomaly-control';

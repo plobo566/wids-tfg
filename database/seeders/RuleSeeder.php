@@ -73,6 +73,7 @@ class RuleSeeder extends Seeder
                 'base_score' => 50,
                 'reincidence' => 5,
                 'suspicious_paths' => ['.env', '.git', 'phpmyadmin', 'wp-admin', 'config.php', 'database.sql', '.aws'],
+                'error_codes' => ['401,403,404'],
             ],
 
         ]);
@@ -123,6 +124,19 @@ class RuleSeeder extends Seeder
         ]);
 
 
+
+        Rule::updateOrCreate([
+            'name' => 'Detector de Bots | Bot Detection ',
+            'class_name' => 'App\Services\Rules\BotDetectionRule',
+            'is_enabled' => true,
+            'priority' => 10,
+            'settings' => [
+                'base_score' => 20,
+                'reincidence' => 10,
+                'window_minutes' => 15,
+            ],
+
+        ]);
 
     }
 }

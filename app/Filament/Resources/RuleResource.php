@@ -13,7 +13,8 @@ use Filament\Tables\Table;
 class RuleResource extends Resource
 {
     protected static ?string $model = Rule::class;
-
+    protected static ?string $navigationGroup = 'Sistema';
+    
     protected static ?string $navigationIcon = 'heroicon-o-cog-6-tooth';
     protected static ?string $navigationLabel = 'Configuración de Reglas';
 

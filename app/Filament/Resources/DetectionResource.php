@@ -77,11 +77,52 @@ class DetectionResource extends Resource
                     ->searchable()
                     ->formatStateUsing(fn(string $state):string=>class_basename($state)),
 
+                
                 Tables\Columns\TextColumn::make('entity_value')
-                    ->label('Objetivo Atacado')
+                    ->label('Objetivo / IP')
                     ->searchable()
                     ->copyable()
-                    ->description(fn($record): string => 'Tipo ' . strtoupper($record->entity_type)),
+                    ->copyableState(fn (?string $state): ?string => $state)
+                    ->description(fn($record): string => 'Tipo ' . strtoupper($record->entity_type))
+                    ->html()
+                    ->formatStateUsing(function (?string $state) {
+                        
+                        if (!$state || !filter_var($state, FILTER_VALIDATE_IP)) {
+                            return $state ?? '-';
+                        }
+
+                        if (!filter_var($state, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+                            return '<div class="flex items-center gap-2">
+                                        <span title="Red Local" class="text-base">💻</span>
+                                        <span>' . $state . '</span>
+                                    </div>';
+                        }
+
+                        $flagUrl = \Illuminate\Support\Facades\Cache::remember("geoip_img_{$state}", 86400, function () use ($state) {
+                            try {
+                                $response = \Illuminate\Support\Facades\Http::timeout(2)->get("http://ipwho.is/{$state}");
+                                
+                                if ($response->successful() && $response->json('success')) {
+                                    return $response->json('flag.img'); 
+                                }
+                            } catch (\Exception $e) {
+                                return null;
+                            }
+                            return null;
+                        });
+                        
+                        if ($flagUrl) {
+                            return '<div class="flex items-center gap-2">
+                                       <img src="' . $flagUrl . '" style="border-radius: 3px; border: 1px solid #2d3748;" class="h-3.5 w-5 object-cover shadow-sm" alt="Bandera">
+                                        <span>' . $state . '</span>
+                                    </div>';
+                        }
+
+                        return '<div class="flex items-center gap-2">
+                                    <span title="Desconocido" class="text-base">🌐</span>
+                                    <span>' . $state . '</span>
+                                </div>';
+                    }),
 
                 Tables\Columns\TextColumn::make('score')
                     ->label('Severidad')

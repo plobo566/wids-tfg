@@ -38,7 +38,7 @@ class SecurityCollector
             'method'        => $request->method(),
             'url'           => $request->fullUrl(),
             'user_agent'    => $request->userAgent(),
-
+            'status_code'   => $response->getStatusCode(),
             'payload'       => $request->all(),
         ];
 
@@ -71,6 +71,7 @@ class SecurityCollector
             'url' => $normalizedData['url'],
             'referer' => $request->headers->get('referer', 'direct'), //si no hay, ponemos direct
             'origin' => $request->headers->get('origin', 'direct'),
+            'status_code' => $normalizedData['status_code'],
 
         ], $event->id);
 

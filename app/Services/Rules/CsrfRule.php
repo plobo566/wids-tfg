@@ -24,10 +24,11 @@ class CsrfRule implements DetectionRuleInterface{
 
         $method = strtoupper($data['method'] ?? 'GET');
 
-        if ($method === 'GET'){
+        if (in_array($method, ['GET', 'HEAD', 'OPTIONS','TRACE'])){
             return null;
         }
 
+        
 
         $reasons = [];
         $origin = ($data['origin'] === 'direct') ? null : $data['origin'];
@@ -38,6 +39,8 @@ class CsrfRule implements DetectionRuleInterface{
         $urlHost= parse_url($data['url'], PHP_URL_HOST);
         $urlPort= parse_url($data['url'], PHP_URL_PORT);
         $url= $urlPort? "$urlHost:$urlPort" : $urlHost;
+
+         //hay que ajustar falsos positivos 
 
 
         if(empty($origin) && empty($referer)){
