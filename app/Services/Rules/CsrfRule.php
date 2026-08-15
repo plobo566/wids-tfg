@@ -22,13 +22,21 @@ class CsrfRule implements DetectionRuleInterface{
 
     public function evaluate(array $data): ?array {
 
+
+
+     
+
+
+
         $method = strtoupper($data['method'] ?? 'GET');
 
         if (in_array($method, ['GET', 'HEAD', 'OPTIONS','TRACE'])){
             return null;
         }
 
-        
+        if (!empty($data['is_internal_log'])) { 
+            return null; 
+        }
 
         $reasons = [];
         $origin = ($data['origin'] === 'direct') ? null : $data['origin'];
@@ -39,12 +47,11 @@ class CsrfRule implements DetectionRuleInterface{
         $urlHost= parse_url($data['url'], PHP_URL_HOST);
         $urlPort= parse_url($data['url'], PHP_URL_PORT);
         $url= $urlPort? "$urlHost:$urlPort" : $urlHost;
-
          //hay que ajustar falsos positivos 
 
 
         if(empty($origin) && empty($referer)){
-            $reasons[] = 'Ausencia de cabeceras en petición de cambio de estado';
+            $reasons[] = "Ausencia de cabeceras en petición de cambio de estado";
         } else {
 
             $source = $origin ? $origin : $referer;
@@ -60,6 +67,8 @@ class CsrfRule implements DetectionRuleInterface{
             }
 
         }
+
+        
 
         if (empty($reasons)) return null;
 
@@ -92,7 +101,8 @@ class CsrfRule implements DetectionRuleInterface{
                 'reasons' => array_values($finalReasons),
                 'method' => $method,
                 'target_url' => $data['url'],
-                'source' => $origin ? $origin: ($referer? $referer: 'direct/none')
+                'source' => $origin ? $origin: ($referer? $referer: 'direct/none'),
+               
             ],
         ];
     }

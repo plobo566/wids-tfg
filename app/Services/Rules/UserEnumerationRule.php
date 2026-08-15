@@ -27,6 +27,11 @@ class UserEnumerationRule implements DetectionRuleInterface{
 
     public function evaluate(array $data): ?array{
 
+
+        if (!empty($data['is_internal_log'])) { 
+            return null; 
+        }
+
         if (!str_contains(strtolower($data['url'] ?? ''), 'login')){
             //dump("DEBUG: no es ruta login" . $data['url']);
 

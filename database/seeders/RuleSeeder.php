@@ -47,7 +47,7 @@ class RuleSeeder extends Seeder
 
 
         Rule::updateOrCreate([
-            'name' => 'Fuerza Bruta login, tokens y otp',
+            'name' => 'Fuerza Bruta login',
             'class_name' => 'App\Services\Rules\BruteForceRule',
             'is_enabled' => true,
             'priority' => 10,
@@ -56,7 +56,6 @@ class RuleSeeder extends Seeder
                 'window_minutes' => 2,
                 'base_score' => 5,
                 'reincidence' => 5,
-                'critical_paths' => ['login', 'otp', 'password', 'token'],
             ],
 
         ]);

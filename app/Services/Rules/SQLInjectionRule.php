@@ -33,6 +33,12 @@ class SqlInjectionRule implements DetectionRuleInterface{
 
     public function evaluate(array $data): ?array{
 
+
+
+        if (!empty($data['is_internal_log'])) { 
+            return null; 
+        }
+
         $payload=json_encode($data['payload'] ?? []); //si no hay, ponemos array vacío
         $weight = 0;
 

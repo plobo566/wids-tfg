@@ -18,6 +18,13 @@ class BotDetectionRule implements DetectionRuleInterface{
 
     public function evaluate(array $data): ?array{
 
+
+
+
+        if (!empty($data['is_internal_log'])) { 
+            return null; 
+        }
+
         $reasons = [];
         $method =strtoupper($data['method'] ?? 'GET');
         $suspiciousMethods = ['HEAD', 'OPTIONS', 'TRACE', 'PROPFIND', 'TRACK', 'PUT', 'DELETE'];

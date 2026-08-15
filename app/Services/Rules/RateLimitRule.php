@@ -25,6 +25,11 @@ class RateLimitRule implements DetectionRuleInterface{
 
     public function evaluate(array $data): ?array{
 
+
+        if (!empty($data['is_internal_log'])) { 
+            return null; 
+        }
+
         $ip=$data['ip'];
 
         $windowStart= now();

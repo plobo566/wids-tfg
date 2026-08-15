@@ -29,6 +29,13 @@ class ScanningRule implements DetectionRuleInterface{
 
     public function evaluate(array $data): ?array{
 
+
+
+
+        if (!empty($data['is_internal_log'])) { 
+            return null; 
+        }
+        
         $url = $data['url'] ?? '';
         $statusCode = $data['status_code'] ?? null;
 
