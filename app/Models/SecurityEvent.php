@@ -15,6 +15,8 @@ class SecurityEvent extends Model
         'user_agent',
         'status_code',
         'payload',
+        'created_at',
+        'updated_at'
         
     ];
 

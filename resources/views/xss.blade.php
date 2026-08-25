@@ -28,7 +28,7 @@
         </ul>
     </div>
 
-    <form action="/login" method="POST" class="space-y-6">
+    <form action="{{ route('xssattacker.post') }}" method="POST" class="space-y-6">
         
         {{ csrf_field() }}
 

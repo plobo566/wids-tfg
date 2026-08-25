@@ -70,7 +70,7 @@ class IncidentResource extends Resource
                         'medium' => 'primary',
                         'low' => 'gray',
                     }),
-                Tables\Columns\TextColumn::make('last_seen')->label('Última actividad')->dateTime('d/m/Y H:i')->sortable(),
+                Tables\Columns\TextColumn::make('last_seen')->label('Última actividad')->dateTime('d/m/Y H:i')->timezone('Europe/Madrid')->sortable(),
             ])
             ->defaultSort('last_seen', 'desc')
             ->actions([

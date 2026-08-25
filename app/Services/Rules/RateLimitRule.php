@@ -60,12 +60,17 @@ class RateLimitRule implements DetectionRuleInterface{
         }
 
         $excess = $count - $T;
-        $k= 3; //pendiente curva
+        $k= 10; //pendiente curva
         $x=$excess/(9*$T);
         $x =min($x,1); 
         
-        $score = 100 * (1 / (1+exp(-$k * ($x - 0.5))));
-        
+
+        $sigma = 1 / (1 + exp(-$k * ($x - 0.5)));
+        // Valores de la sigmoide en x=0 y x=1
+        $sigma0 = 1 / (1 + exp($k * 0.5));
+        $sigma1 = 1 / (1 + exp(-$k * 0.5));
+
+        $score = 100 * (($sigma - $sigma0) / ($sigma1 - $sigma0));        
    
 
         return [

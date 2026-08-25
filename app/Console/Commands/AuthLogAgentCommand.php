@@ -70,15 +70,19 @@ class AuthLogAgentCommand extends Command {
                     
 
 
-                    $event = SecurityEvent::create([ 
-                        'ip_address'    => $rawData['ip_address'], 
-                        'method'        => $rawData['method'], 
-                        'url'           => $rawData['url'], 
-                        'user_agent'    => $rawData['user_agent'], 
-                        'status_code'   => $rawData['status_code'], 
-                        'payload'       => $rawData['payload'], 
-                        'created_at'    => $log['timestamp'] ?? now(),
+                    $event = new SecurityEvent([
+                    'ip_address'  => $rawData['ip_address'],
+                    'method'      => $rawData['method'],
+                    'url'         => $rawData['url'],
+                    'user_agent'  => $rawData['user_agent'],
+                    'status_code' => $rawData['status_code'],
+                    'payload'     => $rawData['payload'],
                     ]);
+                    $timestamp = $log['timestamp'] ?? now();
+                    $event->created_at = $timestamp;
+                    $event->updated_at = $timestamp;
+                    $event->timestamps = false;
+                    $event->save();
 
 
                     $normalizedData = $normalizer->normalize($rawData);

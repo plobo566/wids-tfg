@@ -127,43 +127,47 @@
             <div class="hidden lg:mt-0 lg:col-span-4 lg:flex"></div>   
         </div>
     </section>
-    <!-- Attack Lab Section -->
+    <!-- Attack Lab -->
 <section class="bg-[#1a1a1a] py-16">
-        <div class="max-w-screen-xl px-4 mx-auto">
-            <h2 class="mb-12 text-3xl font-extrabold tracking-tight text-center text-amber-500 lg:text-3xl">Attack Lab (Centro de Pruebas)</h2>
+    <div class="max-w-screen-xl px-4 mx-auto">
+        <h2 class="mb-12 text-3xl font-extrabold tracking-tight text-center text-amber-500 lg:text-3xl">Attack Lab (Centro de Pruebas)</h2>
+        
+        <div class="flex overflow-x-auto gap-6 pb-8 snap-x snap-mandatory scroll-smooth">
             
-            <div class="space-y-8 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-6 xl:gap-8 sm:space-y-0">
-                
-                <div class="flex flex-col p-6 mx-auto w-full text-center bg-[#1f1f1f] border border-gray-800 rounded-lg shadow xl:p-8">
-                    <h3 class="mb-4 text-2xl font-semibold text-white">Brute Force / Auth</h3>
-                    <p class="font-light text-gray-400 sm:text-lg mb-6">Prueba de fuerza bruta y validación de OTP.</p>
-                    <a href="/login" class="text-white bg-amber-600 hover:bg-amber-500 font-medium rounded-lg text-sm px-5 py-2.5 mt-auto transition-colors">Acceder al Login</a>
-                </div>
-
-                <div class="flex flex-col p-6 mx-auto w-full text-center bg-[#1f1f1f] border border-gray-800 rounded-lg shadow xl:p-8">
-                    <h3 class="mb-4 text-2xl font-semibold text-white">XSS Payload</h3>
-                    <p class="font-light text-gray-400 sm:text-lg mb-6">Inyección de scripts maliciosos para comprobar filtrado.</p>
-                    <a href="/xssattacker" class="text-white bg-amber-600 hover:bg-amber-500 font-medium rounded-lg text-sm px-5 py-2.5 mt-auto transition-colors">Acceder al Ataque</a>
-                </div>
-
-                <div class="flex flex-col p-6 mx-auto w-full text-center bg-[#1f1f1f] border border-gray-800 rounded-lg shadow xl:p-8">
-                    <h3 class="mb-4 text-2xl font-semibold text-white">SQLi Test</h3>
-                    <p class="font-light text-gray-400 sm:text-lg mb-6">Prueba para inyección de SQL.</p>
-                    <a href="/test" class="text-white bg-amber-600 hover:bg-amber-500 font-medium rounded-lg text-sm px-5 py-2.5 mt-auto transition-colors">Acceder al Test</a>
-                </div>
-
-                <div class="flex flex-col p-6 mx-auto w-full text-center bg-[#1f1f1f] border border-red-900/50 rounded-lg shadow xl:p-8 relative overflow-hidden">
-                    <div class="absolute top-0 right-0 px-2 py-1 text-xs font-bold text-white bg-red-600 rounded-bl-lg">Puerto 8001</div>
-                    
-                    <h3 class="mb-4 text-2xl font-semibold text-white">CSRF Attack</h3>
-                    <p class="font-light text-gray-400 sm:text-lg mb-6">Simulación de origen cruzado alojada en un servidor externo.</p>
-                    
-                    <a href="/launch-csrf-trap" target="_blank" class="text-white bg-red-700 hover:bg-red-600 font-medium rounded-lg text-sm px-5 py-2.5 mt-auto transition-colors">Abrir Web Trampa</a>
-                </div>
-
+            <div class="flex flex-col p-6 w-80 shrink-0 snap-start text-center bg-[#1f1f1f] border border-gray-800 rounded-lg shadow">
+                <h3 class="mb-4 text-2xl font-semibold text-white">Brute Force / Auth</h3>
+                <p class="font-light text-gray-400 sm:text-lg mb-6">Prueba de fuerza bruta y validación de OTP.</p>
+                <a href="/login" class="text-white bg-amber-600 hover:bg-amber-500 font-medium rounded-lg text-sm px-5 py-2.5 mt-auto transition-colors">Acceder al Login</a>
             </div>
+
+            <div class="flex flex-col p-6 w-80 shrink-0 snap-start text-center bg-[#1f1f1f] border border-gray-800 rounded-lg shadow">
+                <h3 class="mb-4 text-2xl font-semibold text-white">XSS Payload</h3>
+                <p class="font-light text-gray-400 sm:text-lg mb-6">Inyección de scripts maliciosos para comprobar filtrado.</p>
+                <a href="/xssattacker" class="text-white bg-amber-600 hover:bg-amber-500 font-medium rounded-lg text-sm px-5 py-2.5 mt-auto transition-colors">Acceder al Ataque</a>
+            </div>
+
+            <div class="flex flex-col p-6 w-80 shrink-0 snap-start text-center bg-[#1f1f1f] border border-gray-800 rounded-lg shadow">
+                <h3 class="mb-4 text-2xl font-semibold text-white">SQLi Test</h3>
+                <p class="font-light text-gray-400 sm:text-lg mb-6">Prueba para inyección de SQL.</p>
+                <a href="/test" class="text-white bg-amber-600 hover:bg-amber-500 font-medium rounded-lg text-sm px-5 py-2.5 mt-auto transition-colors">Acceder al Test</a>
+            </div>
+
+            <div class="flex flex-col p-6 w-80 shrink-0 snap-start text-center bg-[#1f1f1f] border border-red-900/50 rounded-lg shadow relative overflow-hidden">
+                <div class="absolute top-0 right-0 px-2 py-1 text-xs font-bold text-white bg-red-600 rounded-bl-lg">Puerto 8001</div>
+                <h3 class="mb-4 text-2xl font-semibold text-white">CSRF Attack</h3>
+                <p class="font-light text-gray-400 sm:text-lg mb-6">Simulación de origen cruzado alojada en un servidor externo.</p>
+                <a href="/launch-csrf-trap" target="_blank" class="text-white bg-red-700 hover:bg-red-600 font-medium rounded-lg text-sm px-5 py-2.5 mt-auto transition-colors">Abrir Web Trampa</a>
+            </div>
+
+            <div class="flex flex-col p-6 w-80 shrink-0 snap-start text-center bg-[#1f1f1f] border border-gray-800 rounded-lg shadow">
+                <h3 class="mb-4 text-2xl font-semibold text-white">Rate Limit</h3>
+                <p class="font-light text-gray-400 sm:text-lg mb-6">Inundación de peticiones para probar detección volumétrica.</p>
+                <a href="/ratelimitattacker" class="text-white bg-amber-600 hover:bg-amber-500 font-medium rounded-lg text-sm px-5 py-2.5 mt-auto transition-colors">Acceder al Ataque</a>
+            </div>
+
         </div>
-    </section>
+    </div>
+</section>
 
 </body>
 </html>

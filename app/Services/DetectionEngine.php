@@ -114,7 +114,7 @@ class DetectionEngine{
                 ->first();
 
             $severity = match(true) {
-                $targetDetection->score >= 100 => 'critical',
+                $targetDetection->score >=   100 => 'critical',
                 $targetDetection->score >= 80 => 'high',
                 $targetDetection->score >= 50 => 'medium',
                 default => 'low',

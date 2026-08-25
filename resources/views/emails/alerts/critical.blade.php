@@ -20,9 +20,9 @@
         <td align="center"
             style="padding:35px;background:#111827;">
 
-            <img src="{{ config('app.url') }}/images/logowids.svg"
-                 width="70"
-                 alt="WIDS">
+            <img src="{{ $message->embed(public_path('images/logowids.png')) }}"
+                width="70"
+                alt="WIDS">
 
             <h1 style="margin:20px 0 0;color:#ffffff;font-size:28px;">
                 WIDS

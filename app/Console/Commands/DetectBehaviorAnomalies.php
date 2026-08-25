@@ -59,9 +59,15 @@ class DetectBehaviorAnomalies extends Command
                     'deviation_percentage' => round(($traffic->total_requests / $hourlyAverage) * 100, 2) . '%'
                 ];
 
+
+                $deviationValue = ($traffic->total_requests / $hourlyAverage) * 100;
+                $baseScore = 60;   
+                $extraScore = (($deviationValue - 400) / 100) * 10;
+                $dynamicScore = min(100, $baseScore + $extraScore);
+
                 if ($existing) {
                     $existing->update([
-                        'score' => 60,
+                        'score' => $dynamicScore,
                         'details' => $details,
                         'window_end' => now()->addMinutes(30)
                     ]);
@@ -72,7 +78,7 @@ class DetectBehaviorAnomalies extends Command
                         'rule_name' => 'AnomalyVolumeDetection',
                         'entity_type' => 'ip',
                         'entity_value' => $traffic->ip_address,
-                        'score' => 60,
+                        'score' => $dynamicScore,
                         'window_start' => now(),
                         'window_end' => now()->addMinutes(30),
                         'details' => $details

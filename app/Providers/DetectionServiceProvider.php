@@ -11,7 +11,7 @@ class DetectionServiceProvider extends ServiceProvider{
 
         //creamos una sola instancia para toda la app
 
-        $this->app->singleton(DetectionEngine::class, function ($app){
+        $this->app->singleton(DetectionEngine::class, function ($app){  
 
             $engine = new DetectionEngine();
 
@@ -20,7 +20,7 @@ class DetectionServiceProvider extends ServiceProvider{
 
             return $engine;
 
-        });
+        }); // el service container sabe como devolver la instancia
 
     }
 }

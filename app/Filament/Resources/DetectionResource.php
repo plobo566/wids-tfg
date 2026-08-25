@@ -47,7 +47,8 @@ class DetectionResource extends Resource
 
                         Forms\Components\DateTimePicker::make('created_at')
                             ->label('Detectado el')
-                            ->disabled(),
+                            ->disabled()
+                            ->timezone('Europe/Madrid'),
 
                         Forms\Components\Textarea::make('details')
                             ->label('Metadatos / Payload Completo')
@@ -138,6 +139,7 @@ class DetectionResource extends Resource
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Detectado el:')
                     ->dateTime('d/m/Y H:i:s')
+                    ->timezone('Europe/Madrid')
                     ->sortable(),
 
 

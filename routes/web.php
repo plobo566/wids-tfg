@@ -34,6 +34,16 @@ Route::get('/xssattacker',function(){
     return view('xss');
 });
 
+Route::post('/xssattacker', function (\Illuminate\Http\Request $request) {
+    return view('message', [
+        'title' => 'Resultado del ataque XSS'
+    ]);
+})->name('xssattacker.post');
+
+
+Route::get('/ratelimitattacker', function(){
+    return view('ratelimit');
+})->name('ratelimit.lab');
 
 Route::get('/launch-csrf-trap', function () {
     $host = '127.0.0.1';
